@@ -20,6 +20,10 @@ const instructions = Platform.select({
 
 interface Props {}
 export default class App extends Component<Props> {
+  static navigationOptions = {
+    title: 'Market Watch',
+  };
+
   render() {
     return (
       <View style={styles.container}>
