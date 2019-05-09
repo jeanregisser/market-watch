@@ -3,6 +3,7 @@
     "extends": [
         "tslint:recommended",
         "react",
+        "tslint-plugin-prettier",
         "tslint-config-prettier"
     ],
     "jsRules": {},
@@ -11,6 +12,7 @@
         "member-access": [false, "check-accessor", "check-constructor"],
         "no-empty-interface": false,
         "object-literal-sort-keys": false,
+        "prettier": true,
         "variable-name": [
             true,
             "allow-leading-underscore",
