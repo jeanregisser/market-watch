@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "format": "prettier --write '{.,src/**}/*.{js,jsx,ts,tsx}'",
+    "lint": "tslint -p .",
+    "lint:fix": "yarn lint --fix",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
@@ -23,6 +25,8 @@
     "metro-react-native-babel-preset": "^0.54.0",
     "prettier": "^1.17.0",
     "react-test-renderer": "16.8.3",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.4.5"
   },
   "jest": {
