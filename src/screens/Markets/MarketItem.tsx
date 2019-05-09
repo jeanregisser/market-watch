@@ -1,19 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Market } from 'src/types';
+import { AssetPair, Ticker } from 'src/types';
 
 interface Props {
-  market: Market;
+  assetPair: AssetPair;
+  ticker: Ticker | undefined;
 }
 
-export default function MarketItem({ market }: Props) {
+export default function MarketItem({ assetPair, ticker }: Props) {
   return (
     <View style={styles.container}>
-      <Text>{market.title}</Text>
+      <Text>{assetPair.title}</Text>
+      <Text>{(ticker && ticker.price) || '-'}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });

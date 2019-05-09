@@ -11,17 +11,24 @@
     "test": "jest"
   },
   "dependencies": {
+    "lodash": "^4.17.11",
     "react": "16.8.3",
     "react-native": "0.59.8",
     "react-native-gesture-handler": "^1.2.1",
-    "react-navigation": "^3.9.1"
+    "react-navigation": "^3.9.1",
+    "react-redux": "^5",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-query": "^2.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/runtime": "^7.4.4",
     "@types/jest": "^24.0.12",
+    "@types/lodash": "^4.14.125",
     "@types/react": "^16.8.17",
     "@types/react-native": "^0.57.53",
+    "@types/react-redux": "^7.0.8",
     "@types/react-test-renderer": "^16.8.1",
     "babel-jest": "^24.8.0",
     "husky": "^2.2.0",
