@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "compile": "tsc -b",
     "format": "prettier --write '{.,src/**}/*.{js,jsx,ts,tsx}'",
     "lint": "tslint -p .",
     "lint:fix": "yarn lint --fix",
@@ -21,7 +22,9 @@
     "@types/react-native": "^0.57.53",
     "@types/react-test-renderer": "^16.8.1",
     "babel-jest": "^24.8.0",
+    "husky": "^2.2.0",
     "jest": "^24.8.0",
+    "lint-staged": "^8.1.6",
     "metro-react-native-babel-preset": "^0.54.0",
     "prettier": "^1.17.0",
     "react-test-renderer": "16.8.3",
@@ -31,5 +34,15 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn compile && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "tslint"
+    ]
   }
 }
