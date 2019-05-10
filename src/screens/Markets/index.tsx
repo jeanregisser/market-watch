@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet } from 'react-native';
 import {
   NavigationScreenProp,
   NavigationState,
@@ -14,12 +14,20 @@ import { API_BASE_URL } from '../../env';
 import MarketItem from './MarketItem';
 
 interface Props {
+  isLoading: boolean;
+  forceRequest: () => void;
   assetPairs: Record<string, AssetPair>;
   tickers: Record<string, Ticker>;
   navigation: NavigationScreenProp<NavigationState>;
 }
 
-function Markets({ assetPairs, tickers, navigation }: Props) {
+function Markets({
+  isLoading,
+  forceRequest,
+  assetPairs,
+  tickers,
+  navigation,
+}: Props) {
   const data = Object.values(assetPairs);
 
   return (
@@ -28,6 +36,9 @@ function Markets({ assetPairs, tickers, navigation }: Props) {
       data={data}
       keyExtractor={item => item.id}
       ListFooterComponent={<SafeAreaView forceInset={{ bottom: 'always' }} />}
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={forceRequest} />
+      }
       renderItem={({ item }) => (
         <MarketItem
           assetPair={item}
@@ -48,7 +59,7 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-const marketsRequest = (force = false) => ({
+const marketsRequest = () => ({
   url: `${API_BASE_URL}/AssetPairs`,
   transform: (response: any) => {
     const items: any[] = _.get(response, ['result'], {});
@@ -70,10 +81,9 @@ const marketsRequest = (force = false) => ({
   update: {
     assetPairs: (prev: any, next: any) => next,
   },
-  force,
 });
 
-const tickersRequest = (pairs: string[], force = false) => ({
+const tickersRequest = (pairs: string[]) => ({
   url: `${API_BASE_URL}/Ticker`,
   body: { pair: pairs.join(',') },
   transform: (response: any) => {
@@ -90,7 +100,6 @@ const tickersRequest = (pairs: string[], force = false) => ({
   update: {
     tickers: (prev: any, next: any) => next,
   },
-  force,
 });
 
 const mapStateToProps = (state: any) => ({
@@ -101,11 +110,11 @@ const mapStateToProps = (state: any) => ({
 
 // Map props from `mapStateToProps` to a request query config.
 const mapPropsToConfigs = (props: any) => {
-  const configs: any[] = [marketsRequest(props.force)];
+  const configs: any[] = [marketsRequest()];
 
   const pairs = Object.keys(props.assetPairs);
   if (pairs.length > 0) {
-    configs.push(tickersRequest(pairs, props.force));
+    configs.push(tickersRequest(pairs));
   }
 
   return configs;
