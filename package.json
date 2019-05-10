@@ -15,11 +15,13 @@
     "react": "16.8.3",
     "react-native": "0.59.8",
     "react-native-gesture-handler": "^1.2.1",
+    "react-native-svg": "^9.4.0",
     "react-navigation": "^3.9.1",
     "react-redux": "^5",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
-    "redux-query": "^2.3.1"
+    "redux-query": "^2.3.1",
+    "victory-native": "^32.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -30,6 +32,7 @@
     "@types/react-native": "^0.57.53",
     "@types/react-redux": "^7.0.8",
     "@types/react-test-renderer": "^16.8.1",
+    "@types/victory": "^31.0.17",
     "babel-jest": "^24.8.0",
     "husky": "^2.2.0",
     "jest": "^24.8.0",

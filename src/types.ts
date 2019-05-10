@@ -7,3 +7,15 @@ export interface Ticker {
   id: string;
   price: string;
 }
+
+export interface Trade {
+  price: string;
+  volume: string;
+  time: number;
+}
+
+export interface Spread {
+  bidPrice: string;
+  askPrice: string;
+  time: number;
+}

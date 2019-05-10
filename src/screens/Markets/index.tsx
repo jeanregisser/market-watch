@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { connectRequest, querySelectors } from 'redux-query';
 import { AssetPair, Ticker } from 'src/types';
+import { API_BASE_URL } from '../../env';
 import MarketItem from './MarketItem';
 
 interface Props {
@@ -42,14 +43,8 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-// Can you decipher this? :D
-const BASE_URL = 'cilbup/0/moc.nekark.ipa//:sptth'
-  .split('')
-  .reverse()
-  .join('');
-
 const marketsRequest = (force = false) => ({
-  url: `${BASE_URL}/AssetPairs`,
+  url: `${API_BASE_URL}/AssetPairs`,
   transform: (response: any) => {
     const items: any[] = _.get(response, ['result'], {});
     const assetPairs = Object.entries(items)
@@ -71,7 +66,7 @@ const marketsRequest = (force = false) => ({
 });
 
 const tickersRequest = (pairs: string[], force = false) => ({
-  url: `${BASE_URL}/Ticker`,
+  url: `${API_BASE_URL}/Ticker`,
   body: { pair: pairs.join(',') },
   transform: (response: any) => {
     const items: any[] = _.get(response, ['result'], {});
