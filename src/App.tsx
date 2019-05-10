@@ -5,14 +5,21 @@ import MarketDetails from './screens/MarketDetails';
 import Markets from './screens/Markets';
 import configureStore from './store/configureStore';
 
-const AppNavigator = createStackNavigator({
-  Markets: {
-    screen: Markets,
+const AppNavigator = createStackNavigator(
+  {
+    Markets: {
+      screen: Markets,
+    },
+    MarketDetails: {
+      screen: MarketDetails,
+    },
   },
-  MarketDetails: {
-    screen: MarketDetails,
+  {
+    defaultNavigationOptions: {
+      headerTintColor: 'rgb(65, 48, 158)',
+    },
   },
-});
+);
 
 const AppContainer = createAppContainer(AppNavigator);
 
