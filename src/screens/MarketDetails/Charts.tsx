@@ -62,6 +62,7 @@ export default function Charts({ assetPair, spreads }: Props) {
       <SectionTitle title="Bids/Asks" />
       <VictoryChart
         width={width}
+        height={250}
         theme={theme}
         domainPadding={domainPadding}
         padding={padding}
@@ -91,7 +92,7 @@ export default function Charts({ assetPair, spreads }: Props) {
       <SectionTitle title="Spread" />
       <VictoryChart
         width={width}
-        height={200}
+        height={150}
         theme={theme}
         domainPadding={domainPadding}
         padding={padding}
