@@ -1,5 +1,7 @@
 # Market Watch
 
+<img src="./demo/market-watch-demo-iphonex.gif">
+
 ## Prerequisites
 
 - Xcode and Android Studio
