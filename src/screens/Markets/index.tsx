@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
+import { NavigationScreenProp, NavigationState } from 'react-navigation';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { connectRequest, querySelectors } from 'redux-query';
@@ -10,9 +11,10 @@ import MarketItem from './MarketItem';
 interface Props {
   assetPairs: Record<string, AssetPair>;
   tickers: Record<string, Ticker>;
+  navigation: NavigationScreenProp<NavigationState>;
 }
 
-function Markets({ assetPairs, tickers }: Props) {
+function Markets({ assetPairs, tickers, navigation }: Props) {
   const data = Object.values(assetPairs);
 
   return (
@@ -21,7 +23,16 @@ function Markets({ assetPairs, tickers }: Props) {
       data={data}
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
-        <MarketItem assetPair={item} ticker={tickers[item.id]} />
+        <MarketItem
+          assetPair={item}
+          ticker={tickers[item.id]}
+          onPress={() =>
+            navigation.navigate('MarketDetails', {
+              pairId: item.id,
+              title: item.title,
+            })
+          }
+        />
       )}
     />
   );
@@ -105,6 +116,7 @@ const MarketsContainer = compose(
 
 MarketsContainer.navigationOptions = {
   title: 'Market Watch',
+  headerBackTitle: null,
 };
 
 export default MarketsContainer;

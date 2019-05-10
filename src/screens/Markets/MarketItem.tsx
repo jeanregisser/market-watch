@@ -1,23 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { AssetPair, Ticker } from 'src/types';
 
 interface Props {
   assetPair: AssetPair;
   ticker: Ticker | undefined;
+  onPress: () => void;
 }
 
-export default function MarketItem({ assetPair, ticker }: Props) {
+export default function MarketItem({ assetPair, ticker, onPress }: Props) {
   return (
-    <View style={styles.container}>
-      <Text>{assetPair.title}</Text>
-      <Text>{(ticker && ticker.price) || '-'}</Text>
-    </View>
+    <TouchableHighlight underlayColor="rgba(0,0,0,0.1)" onPress={onPress}>
+      <View style={styles.content}>
+        <Text>{assetPair.title}</Text>
+        <Text>{(ticker && ticker.price) || '-'}</Text>
+      </View>
+    </TouchableHighlight>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
