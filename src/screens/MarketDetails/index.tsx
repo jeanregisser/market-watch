@@ -1,129 +1,69 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React, { useMemo } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { NavigationScreenProp, NavigationState } from 'react-navigation';
+import { RefreshControl, SectionList, StyleSheet, Text } from 'react-native';
+import {
+  NavigationScreenProp,
+  NavigationState,
+  SafeAreaView,
+} from 'react-navigation';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { connectRequest, querySelectors } from 'redux-query';
 import { AssetPair, Spread, Trade } from 'src/types';
-import {
-  VictoryArea,
-  VictoryAxis,
-  VictoryChart,
-  VictoryLine,
-  VictoryTheme,
-} from 'victory-native';
 import { API_BASE_URL } from '../../env';
 import { formatPrice } from '../../utils/formatPrice';
+import Charts from './Charts';
+import TradeItem from './TradeItem';
 
 function formatTimeTick(timestamp: number) {
   return moment(timestamp * 1000).format('LTS');
 }
 
 interface MarketDetailsProps {
+  isLoading: boolean;
+  forceRequest: () => void;
   assetPair: AssetPair;
   spreads: Spread[];
   recentTrades: Trade[];
 }
 
 function MarketDetails({
+  isLoading,
+  forceRequest,
   assetPair,
   spreads,
   recentTrades,
 }: MarketDetailsProps) {
-  const askData = useMemo(
-    () =>
-      spreads.map(({ time, askPrice }) => ({
-        time,
-        askPrice: parseFloat(askPrice),
-      })),
-    [spreads],
+  const sections = useMemo(
+    () => [
+      {
+        key: 's0',
+        data: recentTrades.slice().reverse(),
+      },
+    ],
+    [recentTrades],
   );
-
-  const bidData = useMemo(
-    () =>
-      spreads.map(({ time, bidPrice }) => ({
-        time,
-        bidPrice: parseFloat(bidPrice),
-      })),
-    [spreads],
-  );
-
-  const spreadData = useMemo(
-    () =>
-      askData.map(({ time, askPrice }, index) => ({
-        time,
-        spread: askPrice - bidData[index].bidPrice,
-      })),
-    [askData, bidData],
-  );
-
-  const { width } = Dimensions.get('window');
-  const theme = VictoryTheme.material;
-  const domainPadding = { y: 20 };
-  const padding = { bottom: 30 };
-  const tickCount = Math.floor(width / 90);
-  const timeAxisTickFormat = (y: number) => formatPrice(y, assetPair);
-  const axisStyle = { tickLabels: { fill: 'rgb(102,102,102)' } };
 
   return (
-    <View style={styles.container}>
-      <VictoryChart
-        width={width}
-        theme={theme}
-        domainPadding={domainPadding}
-        padding={padding}
-      >
-        <VictoryAxis
-          style={axisStyle}
-          tickCount={tickCount}
-          tickFormat={formatTimeTick}
+    <SectionList
+      style={styles.container}
+      sections={sections}
+      keyExtractor={(item, index) => item + index}
+      ListHeaderComponent={<Charts assetPair={assetPair} spreads={spreads} />}
+      ListFooterComponent={<SafeAreaView forceInset={{ bottom: 'always' }} />}
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={forceRequest} />
+      }
+      renderItem={({ item, index, section }) => (
+        <TradeItem
+          assetPair={assetPair}
+          trade={item}
+          alternate={index % 2 === 0}
         />
-        <VictoryAxis
-          dependentAxis
-          style={axisStyle}
-          orientation="right"
-          offsetX={width}
-          tickFormat={timeAxisTickFormat}
-        />
-        <VictoryLine data={askData} x="time" y="askPrice" />
-        <VictoryLine
-          data={bidData}
-          x="time"
-          y="bidPrice"
-          style={{
-            data: { stroke: '#c43a31' },
-          }}
-        />
-      </VictoryChart>
-      <VictoryChart
-        width={width}
-        height={200}
-        theme={theme}
-        domainPadding={domainPadding}
-        padding={padding}
-      >
-        <VictoryAxis
-          style={axisStyle}
-          tickCount={tickCount}
-          tickFormat={formatTimeTick}
-        />
-        <VictoryAxis
-          dependentAxis
-          style={axisStyle}
-          orientation="right"
-          offsetX={width}
-          tickFormat={timeAxisTickFormat}
-        />
-        <VictoryArea
-          style={{ data: { fill: 'rgb(80,110,130)' } }}
-          data={spreadData}
-          x="time"
-          y="spread"
-        />
-      </VictoryChart>
-    </View>
+      )}
+      renderSectionHeader={() => <TradeItem.Header />}
+    />
   );
 }
 
@@ -143,6 +83,7 @@ const recentTradesRequest = (pairId: string, force = false) => ({
         price: item[0],
         volume: item[1],
         time: item[2],
+        order: item[3],
       }),
     );
 

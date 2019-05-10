@@ -9,10 +9,16 @@ export interface Ticker {
   price: string;
 }
 
+enum TradeOrder {
+  Buy = 'b',
+  Sell = 's',
+}
+
 export interface Trade {
   price: string;
   volume: string;
   time: number;
+  order: TradeOrder;
 }
 
 export interface Spread {
