@@ -1,6 +1,7 @@
 # Market Watch
 
 <img src="./demo/market-watch-demo-iphonex.gif">
+<img src="./demo/market-watch-demo-nexus5x.gif">
 
 ## Prerequisites
 
