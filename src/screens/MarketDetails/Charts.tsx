@@ -10,6 +10,7 @@ import {
   VictoryTheme,
 } from 'victory-native';
 import { formatPrice } from '../../utils/formatPrice';
+import SectionTitle from './SectionTitle';
 
 function formatTimeTick(timestamp: number) {
   return moment(timestamp * 1000).format('LTS');
@@ -58,6 +59,7 @@ export default function Charts({ assetPair, spreads }: Props) {
 
   return (
     <View style={styles.container}>
+      <SectionTitle title="Bids/Asks" />
       <VictoryChart
         width={width}
         theme={theme}
@@ -86,6 +88,7 @@ export default function Charts({ assetPair, spreads }: Props) {
           }}
         />
       </VictoryChart>
+      <SectionTitle title="Spread" />
       <VictoryChart
         width={width}
         height={200}
