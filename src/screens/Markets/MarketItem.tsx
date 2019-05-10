@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { AssetPair, Ticker } from 'src/types';
+import { formatPrice } from '../../utils/formatPrice';
 
 interface Props {
   assetPair: AssetPair;
@@ -13,7 +14,7 @@ export default function MarketItem({ assetPair, ticker, onPress }: Props) {
     <TouchableHighlight underlayColor="rgba(0,0,0,0.1)" onPress={onPress}>
       <View style={styles.content}>
         <Text>{assetPair.title}</Text>
-        <Text>{(ticker && ticker.price) || '-'}</Text>
+        <Text>{(ticker && formatPrice(ticker.price, assetPair)) || '-'}</Text>
       </View>
     </TouchableHighlight>
   );
