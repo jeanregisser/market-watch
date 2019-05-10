@@ -79,15 +79,19 @@ export default function Charts({ assetPair, spreads }: Props) {
           offsetX={width}
           tickFormat={timeAxisTickFormat}
         />
-        <VictoryLine data={askData} x="time" y="askPrice" />
-        <VictoryLine
-          data={bidData}
-          x="time"
-          y="bidPrice"
-          style={{
-            data: { stroke: '#c43a31' },
-          }}
-        />
+        {askData.length > 0 && (
+          <VictoryLine data={askData} x="time" y="askPrice" />
+        )}
+        {bidData.length > 0 && (
+          <VictoryLine
+            data={bidData}
+            x="time"
+            y="bidPrice"
+            style={{
+              data: { stroke: '#c43a31' },
+            }}
+          />
+        )}
       </VictoryChart>
       <SectionTitle title="Spread" />
       <VictoryChart
@@ -109,12 +113,14 @@ export default function Charts({ assetPair, spreads }: Props) {
           offsetX={width}
           tickFormat={timeAxisTickFormat}
         />
-        <VictoryArea
-          style={{ data: { fill: 'rgb(80,110,130)' } }}
-          data={spreadData}
-          x="time"
-          y="spread"
-        />
+        {spreadData.length > 0 && (
+          <VictoryArea
+            style={{ data: { fill: 'rgb(80,110,130)' } }}
+            data={spreadData}
+            x="time"
+            y="spread"
+          />
+        )}
       </VictoryChart>
     </View>
   );
