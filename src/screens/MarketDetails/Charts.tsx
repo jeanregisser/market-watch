@@ -58,7 +58,7 @@ export default function Charts({ assetPair, spreads }: Props) {
   const axisStyle = { tickLabels: { fill: 'rgb(102,102,102)' } };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} pointerEvents="none">
       <SectionTitle title="Bids/Asks" />
       <VictoryChart
         width={width}
