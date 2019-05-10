@@ -51,18 +51,6 @@ $ yarn lint
 $ yarn compile
 ```
 
-### Test
-
-```
-$ yarn test
-```
-
-or
-
-```
-$ yarn test:watch
-```
-
 ## Resources
 
 * React Native:
