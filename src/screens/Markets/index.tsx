@@ -48,10 +48,13 @@ const marketsRequest = (force = false) => ({
   transform: (response: any) => {
     const items: any[] = _.get(response, ['result'], {});
     const assetPairs = Object.entries(items)
-      .map(([key, value]) => ({
-        id: key,
-        title: value.wsname,
-      }))
+      .map(
+        ([key, value]): AssetPair => ({
+          id: key,
+          title: value.wsname,
+          quote: value.quote,
+        }),
+      )
       // Some pairs don't have a title, leave them out
       .filter(({ title }) => Boolean(title));
 

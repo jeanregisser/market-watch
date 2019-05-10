@@ -1,6 +1,7 @@
 export interface AssetPair {
   id: string;
   title: string;
+  quote: string;
 }
 
 export interface Ticker {
