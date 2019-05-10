@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import React from 'react';
-import { FlatList, RefreshControl, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { RefreshControl, SectionList, StyleSheet } from 'react-native';
 import {
   NavigationScreenProp,
   NavigationState,
@@ -28,21 +28,25 @@ function Markets({
   tickers,
   navigation,
 }: Props) {
-  const data = Object.values(assetPairs);
+  const section = useMemo(
+    () => [{ key: 's0', data: Object.values(assetPairs) }],
+    [assetPairs],
+  );
 
   return (
-    <FlatList
+    <SectionList
       style={styles.container}
-      data={data}
+      sections={section}
       keyExtractor={item => item.id}
       ListFooterComponent={<SafeAreaView forceInset={{ bottom: 'always' }} />}
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={forceRequest} />
       }
-      renderItem={({ item }) => (
+      renderItem={({ item, index }) => (
         <MarketItem
           assetPair={item}
           ticker={tickers[item.id]}
+          alternate={index % 2 === 0}
           onPress={() =>
             navigation.navigate('MarketDetails', {
               pairId: item.id,
@@ -51,6 +55,7 @@ function Markets({
           }
         />
       )}
+      renderSectionHeader={() => <MarketItem.Header />}
     />
   );
 }
