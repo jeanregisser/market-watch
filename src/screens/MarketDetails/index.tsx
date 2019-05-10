@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const recentTradesRequest = (pairId: string, force = false) => ({
+const recentTradesRequest = (pairId: string) => ({
   url: `${API_BASE_URL}/Trades`,
   body: { pair: pairId },
   transform: (response: any) => {
@@ -100,10 +100,9 @@ const recentTradesRequest = (pairId: string, force = false) => ({
   update: {
     recentTrades: (prev: any, next: any) => ({ ...prev, ...next }),
   },
-  force,
 });
 
-const spreadRequest = (pairId: string, force = false) => ({
+const spreadRequest = (pairId: string) => ({
   url: `${API_BASE_URL}/Spread`,
   body: { pair: pairId },
   transform: (response: any) => {
@@ -123,11 +122,9 @@ const spreadRequest = (pairId: string, force = false) => ({
   update: {
     spreads: (prev: any, next: any) => ({ ...prev, ...next }),
   },
-  force,
 });
 
 interface OwnProps {
-  force: boolean;
   navigation: NavigationScreenProp<NavigationState>;
 }
 
@@ -148,9 +145,9 @@ const mapStateToProps = (state: any, { navigation }: OwnProps) => {
 };
 
 // Map props from `mapStateToProps` to a request query config.
-const mapPropsToConfigs = ({ navigation, force }: OwnProps) => {
+const mapPropsToConfigs = ({ navigation }: OwnProps) => {
   const pairId = navigation.getParam('pairId');
-  return [spreadRequest(pairId, force), recentTradesRequest(pairId, force)];
+  return [spreadRequest(pairId), recentTradesRequest(pairId)];
 };
 
 const MarketDetailsContainer = compose(
