@@ -1,7 +1,11 @@
 import _ from 'lodash';
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
-import { NavigationScreenProp, NavigationState } from 'react-navigation';
+import {
+  NavigationScreenProp,
+  NavigationState,
+  SafeAreaView,
+} from 'react-navigation';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { connectRequest, querySelectors } from 'redux-query';
@@ -23,6 +27,7 @@ function Markets({ assetPairs, tickers, navigation }: Props) {
       style={styles.container}
       data={data}
       keyExtractor={item => item.id}
+      ListFooterComponent={<SafeAreaView forceInset={{ bottom: 'always' }} />}
       renderItem={({ item }) => (
         <MarketItem
           assetPair={item}
