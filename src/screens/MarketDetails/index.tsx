@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from 'moment';
 import React, { useMemo } from 'react';
 import { RefreshControl, SectionList, StyleSheet, View } from 'react-native';
 import {
@@ -12,14 +11,9 @@ import { compose } from 'redux';
 import { connectRequest, querySelectors } from 'redux-query';
 import { AssetPair, Spread, Trade } from 'src/types';
 import { API_BASE_URL } from '../../env';
-import { formatPrice } from '../../utils/formatPrice';
 import Charts from './Charts';
 import SectionTitle from './SectionTitle';
 import TradeItem from './TradeItem';
-
-function formatTimeTick(timestamp: number) {
-  return moment(timestamp * 1000).format('LTS');
-}
 
 interface MarketDetailsProps {
   isLoading: boolean;
