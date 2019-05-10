@@ -6,7 +6,12 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { connectRequest, querySelectors } from 'redux-query';
 import { Spread, Trade } from 'src/types';
-import { VictoryChart, VictoryLine, VictoryTheme } from 'victory-native';
+import {
+  VictoryArea,
+  VictoryChart,
+  VictoryLine,
+  VictoryTheme,
+} from 'victory-native';
 import { API_BASE_URL } from '../../env';
 
 interface MarketDetailsProps {
@@ -33,10 +38,21 @@ function MarketDetails({ spreads, recentTrades }: MarketDetailsProps) {
     [spreads],
   );
 
+  const spreadData = useMemo(
+    () =>
+      askData.map(({ time, askPrice }, index) => ({
+        time,
+        spread: askPrice - bidData[index].bidPrice,
+      })),
+    [askData, bidData],
+  );
+
+  const { width } = Dimensions.get('window');
+
   return (
     <View style={styles.container}>
       <VictoryChart
-        width={Dimensions.get('window').width}
+        width={width}
         theme={VictoryTheme.material}
         domainPadding={{ x: 10 }}
       >
@@ -48,6 +64,19 @@ function MarketDetails({ spreads, recentTrades }: MarketDetailsProps) {
           style={{
             data: { stroke: '#c43a31' },
           }}
+        />
+      </VictoryChart>
+      <VictoryChart
+        width={width}
+        height={200}
+        theme={VictoryTheme.material}
+        domainPadding={{ x: 10 }}
+      >
+        <VictoryArea
+          style={{ data: { fill: 'rgb(80,110,130)' } }}
+          data={spreadData}
+          x="time"
+          y="spread"
         />
       </VictoryChart>
     </View>
