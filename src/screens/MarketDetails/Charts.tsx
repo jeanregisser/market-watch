@@ -49,13 +49,16 @@ export default function Charts({ assetPair, spreads }: Props) {
     [askData, bidData],
   );
 
+  const hasData = spreads.length > 0;
   const { width } = Dimensions.get('window');
   const theme = VictoryTheme.material;
   const domainPadding = { y: 20 };
   const padding = { bottom: 30 };
   const tickCount = Math.floor(width / 90);
   const timeAxisTickFormat = (y: number) => formatPrice(y, assetPair);
-  const axisStyle = { tickLabels: { fill: 'rgb(102,102,102)' } };
+  const axisStyle = {
+    tickLabels: { fill: hasData ? 'rgb(102,102,102)' : 'transparent' },
+  };
 
   return (
     <View style={styles.container} pointerEvents="none">
